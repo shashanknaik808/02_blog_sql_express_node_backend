@@ -39,3 +39,25 @@ module.exports.getAllUser = async (req, res, next) => {
         }
     })
 };
+
+
+module.exports.login = async (req, res, next) => {
+    const { email, password } = req.body;
+    db.query('SELECT * FROM USERS WHERE EMAIL=?', [email], (err, results) => {
+        if (err) {
+            console.log(err);
+        }
+        if (results.length === 0) return res.json({ message: 'NO User Found' })
+        results.forEach(ele => {
+            if (email === ele.EMAIL) {
+                if (password === ele.PASSWORD) {
+                    return res.json({
+                        message: 'Login successfull'
+                    })
+                } else {
+                    return res.json({ message: 'Invalid Password' })
+                }
+            }
+        })
+    })
+}
