@@ -29,3 +29,13 @@ module.exports.signup = (req, res) => {
         })
     });
 }
+
+module.exports.getAllUser = async (req, res, next) => {
+    db.query('SELECT * FROM USERS', (err, results) => {
+        if (err) {
+            console.log(err);
+        } else {
+            return res.send(results);
+        }
+    })
+};
