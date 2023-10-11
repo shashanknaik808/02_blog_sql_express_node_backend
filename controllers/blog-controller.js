@@ -1,4 +1,5 @@
-const mongoose = require('mongoose');
+// const mongoose = require('mongoose');
+const mysql = require('mysql2');
 const db = require('../config/db.js');
 
 module.exports.getAllBlogs = async (req, res, next) => {
