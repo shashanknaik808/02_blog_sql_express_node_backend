@@ -100,3 +100,22 @@ module.exports.deleteBlog = async (req, res, next) => {
         }
     })
 };
+
+module.exports.getByUserId = async (req, res, next) => {
+    const userId = req.params.id;
+    db.query('SELECT * FROM BLOGS WHERE ID=?', [userId], (err, results) => {
+        if (err) {
+            console.log(err);
+            return res.json({
+                message: 'Error in the server'
+            });
+        } else {
+            console.log(results);
+
+            if (results.length === 0) return res.json({
+                message: 'Could not find the blog'
+            });
+            return res.send(results);
+        }
+    })
+};
