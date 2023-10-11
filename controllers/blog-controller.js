@@ -61,3 +61,42 @@ module.exports.updateBlog = async (req, res, next) => {
         }
     })
 };
+
+
+module.exports.getById = async (req, res, next) => {
+    const blogId = req.params.id;
+    db.query('SELECT * FROM BLOGS WHERE B_ID=?', [blogId], (err, results) => {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log(results);
+
+            if (results.length === 0) return res.json({
+                message: 'Could not find the blog'
+            });
+            return res.send(results);
+        }
+    })
+};
+
+module.exports.deleteBlog = async (req, res, next) => {
+    const blogId = req.params.id;
+    db.query('DELETE FROM BLOGS WHERE B_ID=?', [blogId], (err, results) => {
+        if (err) {
+            console.log(err);
+            return res.json({
+                message: 'Error in the server'
+            });
+        } else {
+            console.log(results);
+
+            if (results.affectedRows === 0) return res.json({
+                message: 'Could not find the blog'
+            });
+
+            return res.json({
+                message: 'Blog deleted'
+            });
+        }
+    })
+};
