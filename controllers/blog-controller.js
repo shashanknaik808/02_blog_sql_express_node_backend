@@ -35,3 +35,29 @@ module.exports.addBlog = async (req, res, next) => {
         })
     })
 };
+
+module.exports.updateBlog = async (req, res, next) => {
+    const { title, description, image, id } = req.body;
+    const blogId = req.params.id;
+    console.log(blogId);
+
+    db.query('UPDATE BLOGS SET TITLE=?, DESCRIPTION = ?, IMAGE= ?, ID=? WHERE B_ID =?', [title, description, image, id, blogId], (err, results) => {
+        if (err) {
+            console.log(err);
+            return res.json({
+                message: 'Error in the server'
+            });
+        } else {
+            console.log(results);
+
+            if (results.affectedRows === 0) return res.json({
+                message: 'Could not find the blog'
+            });
+
+
+            return res.json({
+                message: 'Blog updated'
+            });
+        }
+    })
+};
